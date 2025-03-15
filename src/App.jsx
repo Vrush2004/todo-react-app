@@ -56,7 +56,61 @@ function App() {
         })}
       </div>
 
-      
+      <div className='fixed bottom-0 left-0 w-full bg-slate-400 p-10 flex md:flex-row flex-col items-center justify-center gap-y-4'>
+        <input
+          type="text"
+          onChange={(e) => {
+            setTodoItem({
+              ...todoItem,
+              task: e.target.value
+            });
+          }}
+          value={todoItem.task}
+          className='bg-white text-xl w-[400px] rounded-md p-2 focus:outline-none'
+          placeholder='Enter Task'
+        />
+
+        <select
+          className='text-xl bg-white px-5 py-2 rounded-md ml-0 md:ml-5 md:w-[200px]'
+          onChange={(e) => {
+            setTodoItem({
+              ...todoItem,
+              priority: e.target.value
+            });
+          }}
+          value={todoItem.priority}
+        >
+          <option value="">Select Priority</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
+        <button
+          className='text-xl bg-yellow-500 px-10 py-2 rounded-md ml-5 mt-10 md:mt-0 w-[150px] cursor-pointer'
+          onClick={() => {
+            if (!todoItem.task) {
+              toast.error('Please enter task');
+              return;
+            }
+            if (!todoItem.priority) {
+              toast.error('Please select priority');
+              return;
+            }
+
+            setSelectedTab(todoItem.priority);
+
+            setTodoList([todoItem, ...todoList]);
+            setTodoItem({
+              task: "",
+              priority: "",
+            });
+            toast.success('Task Added Successfully');
+          }}
+        >
+          Add
+        </button>
+      </div>
       <Toaster />
     </div>
   );
