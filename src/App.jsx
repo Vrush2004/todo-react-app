@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import TodoCard from './components/TodoCard';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -24,24 +24,28 @@ function App() {
     setTodoList(listAfterDeletion);
   };
 
+  const filteredTodoList = selectedTab === "All" 
+    ? todoList 
+    : todoList.filter(taskItem => taskItem.priority === selectedTab);
+
   return (
     <div className='bg-amber-50 min-h-screen'>
       <div className='flex justify-around border border-b-2 border-slate-400 pt-4'>
         {["All", "High", "Medium", "Low"].map((tab, i) => {
-        return (
-          <span 
-            className={`py-1 text-lg md:text-xl text-center w-[100px] md:w-[250px] rounded-tl-lg rounded-tr-lg block cursor-pointer ${tab === selectedTab ? "bg-slate-400 text-white" : "bg-white"}`} 
-            key={i}  
-            onClick={() => setSelectedTab(tab)}  
-          >
-            {tab}
-          </span>
-        )
-      })}
+          return (
+            <span 
+              className={`py-1 text-lg md:text-xl text-center w-[100px] md:w-[250px] rounded-tl-lg rounded-tr-lg block cursor-pointer ${tab === selectedTab ? "bg-slate-400 text-white" : "bg-white"}`} 
+              key={i}  
+              onClick={() => setSelectedTab(tab)}  
+            >
+              {tab}
+            </span>
+          );
+        })}
       </div>
 
       <div className='h-[60vh] md:h-[80vh] overflow-y-scroll'>
-        {todoList.map((taskItem, index) => {
+        {filteredTodoList.map((taskItem, index) => {
           const { task, priority } = taskItem;
 
           return (
@@ -66,7 +70,7 @@ function App() {
             });
           }}
           value={todoItem.task}
-          className='bg-white text-xl w-[400px] rounded-md p-2 focus:outline-none'
+          className='bg-white text-xl md:w-[400px] rounded-md p-2 focus:outline-none w-[300px]'
           placeholder='Enter Task'
         />
 
@@ -87,7 +91,7 @@ function App() {
         </select>
 
         <button
-          className='text-xl bg-yellow-500 px-10 py-2 rounded-md ml-5 mt-10 md:mt-0 w-[150px] cursor-pointer'
+          className='text-xl bg-yellow-500 md:px-10 px-5 py-2 rounded-md md:ml-5 mt-5 md:mt-0 w-[150px] cursor-pointer'
           onClick={() => {
             if (!todoItem.task) {
               toast.error('Please enter task');
@@ -99,7 +103,6 @@ function App() {
             }
 
             setSelectedTab(todoItem.priority);
-
             setTodoList([todoItem, ...todoList]);
             setTodoItem({
               task: "",

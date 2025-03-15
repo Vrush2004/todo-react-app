@@ -23,7 +23,7 @@ function TodoCard({ task, priority, index, onDelete }) {
 
       <TrashIcon
         onClick={() => onDelete(index)}
-        className='absolute top-2 right-2 cursor-pointer'
+        className='absolute top-2 right-2 cursor-pointer text-red-600'
       />
     </div>
   );
